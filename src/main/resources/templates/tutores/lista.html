@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Bem-Estar - Tutores</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+<main class="container">
+    <h1>Pet Bem-Estar</h1>
+    <p class="subtitulo">Gerenciamento de clientes</p>
+    <div class="mensagem" th:if="${mensagem}" th:text="${mensagem}"></div>
+    <div class="mensagens-erro" th:if="${erro}" th:text="${erro}"></div>
+    <a th:href="@{/paginas/tutores/novo}" class="botao">+ Novo tutor</a>
+    <a th:href="@{/paginas/animais}" class="botao">Animais</a>
+    <div class="vazio" th:if="${#lists.isEmpty(tutores)}">Nenhum tutor cadastrado.</div>
+    <table th:if="${not #lists.isEmpty(tutores)}">
+        <thead><tr><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Ações</th></tr></thead>
+        <tbody>
+        <tr th:each="tutor : ${tutores}">
+            <td th:text="${tutor.nome}"></td><td th:text="${tutor.telefone}"></td><td th:text="${tutor.email}"></td>
+            <td><div class="acoes">
+                <a th:href="@{/paginas/tutores/editar/{id}(id=${tutor.id})}" class="btn btn-editar">Editar</a>
+                <form th:action="@{/paginas/tutores/excluir/{id}(id=${tutor.id})}" method="post"
+                      onsubmit="return confirm('Deseja realmente excluir este tutor?');">
+                    <button type="submit" class="btn btn-excluir">Excluir</button>
+                </form>
+            </div></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
