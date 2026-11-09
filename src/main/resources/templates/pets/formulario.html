@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Animal</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+    <main class="container">
+        <!-- Alterado de 'animal' para 'pet' -->
+        <h1 th:text="${pet.id == null ? 'Cadastrar Animal' : 'Editar Animal'}">Cadastro de Animal</h1>
+        
+        <form th:object="${pet}"
+              th:action="${pet.id == null ? '/paginas/pets/novo' : '/paginas/pets/editar/' + pet.id}"
+              method="post">
+            
+            <input type="hidden" th:field="*{id}">
+            
+            <div class="mensagens-erro" th:if="${#fields.hasErrors('*')}">
+                <p><strong>Não foi possível salvar o animal.</strong></p>
+                <ul>
+                    <li th:each="erro : ${#fields.errors('*')}" th:text="${erro}">Mensagem</li>
+                </ul>
+            </div>
+            
+            <div class="campo">
+                <label for="nome">Nome:</label> 
+                <input type="text" id="nome" th:field="*{nome}" required maxlength="100"> 
+                <span class="erro-campo" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
+            </div>
+            
+            <div class="campo">
+                <label for="tutor">Tutor:</label> 
+                <!-- O select usa o ID para enviar ao banco -->
+                <select id="tutor" th:field="*{tutor.id}" required>
+                    <option value="">Selecione o tutor</option>
+                    <option th:each="tutor : ${tutores}" th:value="${tutor.id}" th:text="${tutor.nome}"></option>
+                </select> 
+                <span class="erro-campo" th:if="${#fields.hasErrors('tutor')}" th:errors="*{tutor}"></span>
+            </div>
+            
+            <div class="campo">
+                <label for="especie">Espécie:</label> 
+                <select id="especie" th:field="*{especie}" required>
+                    <option value="">Selecione a espécie</option>
+                    <option th:each="especie : ${especies}" th:value="${especie}" th:text="${especie}"></option>
+                </select> 
+                <span class="erro-campo" th:if="${#fields.hasErrors('especie')}" th:errors="*{especie}"></span>
+            </div>
+            
+            <div class="campo">
+                <label for="porte">Porte:</label> 
+                <select id="porte" th:field="*{porte}" required>
+                    <option value="">Selecione o porte</option>
+                    <option th:each="porte : ${portes}" th:value="${porte}" th:text="${porte}"></option>
+                </select> 
+                <span class="erro-campo" th:if="${#fields.hasErrors('porte')}" th:errors="*{porte}"></span>
+            </div>
+            
+            <div class="botoes-formulario">
+                <button type="submit" class="btn btn-principal"
+                        th:text="${pet.id == null ? 'Cadastrar' : 'Salvar alterações'}">Salvar</button>
+                <!-- Link de cancelar ajustado -->
+                <a th:href="@{/paginas/pets}" class="btn btn-secundario">Cancelar</a>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

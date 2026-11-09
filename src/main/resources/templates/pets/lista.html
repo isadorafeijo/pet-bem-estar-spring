@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Bem-Estar - Animais</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+    <main class="container">
+        <h1>Pet Bem-Estar</h1>
+        <p class="subtitulo">Gerenciamento de animais</p>
+
+        <div class="mensagem" th:if="${mensagem}" th:text="${mensagem}"></div>
+        <div class="mensagens-erro" th:if="${erro}" th:text="${erro}"></div>
+
+        <!-- Navegação corrigida para /paginas/pets -->
+        <a th:href="@{/paginas/pets/novo}" class="botao"> + Novo animal </a> 
+        <a th:href="@{/paginas/tutores}" class="botao"> Tutores </a>
+
+        <div class="vazio" th:if="${#lists.isEmpty(pets)}">Nenhum animal cadastrado.</div>
+
+        <table th:if="${not #lists.isEmpty(pets)}">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Espécie</th>
+                    <th>Porte</th>
+                    <th>Tutor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Variável alterada de 'animal' para 'pet' -->
+                <tr th:each="pet : ${pets}">
+                    <td th:text="${pet.nome}"></td>
+                    <td th:text="${pet.especie}"></td>
+                    <td th:text="${pet.porte}"></td>
+                    <td th:text="${pet.tutor.nome}"></td>
+                    <td>
+                        <div class="acoes">
+                            <!-- Rotas alteradas para /paginas/pets -->
+                            <a th:href="@{/paginas/pets/editar/{id}(id=${pet.id})}" class="btn btn-editar"> Editar </a>
+
+                            <form th:action="@{/paginas/pets/excluir/{id}(id=${pet.id})}" method="post"
+                                  onsubmit="return confirm('Deseja realmente excluir este animal?');">
+                                <button type="submit" class="btn btn-excluir">Excluir</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>

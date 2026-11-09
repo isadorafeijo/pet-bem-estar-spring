@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.edu.ifrs.petbemestar.dao.TutorDAO;
@@ -15,9 +16,9 @@ import br.edu.ifrs.petbemestar.dominio.Tutor;
 import jakarta.validation.Valid;
 
 @Controller 
-@RequestMapping
+@RequestMapping("/paginas/tutores")
 public class TutorPaginaController {
-	
+	 
 	private final TutorDAO dao;
 
 	public TutorPaginaController(TutorDAO dao) {
