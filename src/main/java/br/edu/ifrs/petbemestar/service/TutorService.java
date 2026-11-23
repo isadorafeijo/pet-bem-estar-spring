@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import br.edu.ifrs.petbemestar.dao.PetDAO;
 import br.edu.ifrs.petbemestar.dao.TutorDAO;
+import br.edu.ifrs.petbemestar.dominio.Pet;
 import br.edu.ifrs.petbemestar.dominio.Tutor;
 
 @Service
@@ -50,6 +51,10 @@ public class TutorService {
 		if (existente != null && !existente.getId().equals(idDoProprioTutor)) {
 			throw new RegraDeNegocioException("Já existe um cliente cadastrado com este telefone.");
 		}
+	}
+	
+	public List<Pet> listarPets(Long id) {
+		return petDAO.listarPorTutor(id);
 	}
 	
 }

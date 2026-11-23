@@ -20,7 +20,7 @@ import jakarta.validation.Valid;
 public class TutorPaginaController {
 	 
 	private final TutorService service;
-
+	
 	public TutorPaginaController(TutorService service) {
 		this.service = service;
 	}
@@ -94,5 +94,16 @@ public class TutorPaginaController {
 		}
 
 		return "redirect:/paginas/tutores";
+	}
+	
+	@GetMapping("/ficha/{id}")
+	public String ficha(@PathVariable Long id, Model model) {
+		Tutor tutor = service.buscarPorId(id);
+		if (tutor == null) {
+			return "redirect:/paginas/tutores";
+		}
+		model.addAttribute("tutor", tutor);
+		model.addAttribute("pets", service.listarPets(id));
+		return "tutores/ficha";
 	}
 }
