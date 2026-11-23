@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.edu.ifrs.petbemestar.dominio.Tutor;
+import br.edu.ifrs.petbemestar.service.RegraDeNegocioException;
 import br.edu.ifrs.petbemestar.service.TutorService;
 import jakarta.validation.Valid;
 
@@ -81,9 +82,8 @@ public class TutorPaginaController {
 			service.remover(id);
 			atributos.addFlashAttribute("mensagem", "Tutor removido.");
 
-		} catch (Exception e) {
-			atributos.addFlashAttribute("erro",
-					"Não foi possível remover o tutor. Verifique se existem animais vinculados.");
+		} catch (RegraDeNegocioException e) {
+			atributos.addFlashAttribute("erro", e.getMessage());
 		}
 
 		return "redirect:/paginas/tutores";

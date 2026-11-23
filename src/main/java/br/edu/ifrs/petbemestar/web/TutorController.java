@@ -52,4 +52,5 @@ public class TutorController {
 	public void remover(@PathVariable Long id) {
 		service.remover(id);
 	}
+	
 }

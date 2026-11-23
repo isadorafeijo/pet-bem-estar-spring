@@ -36,4 +36,8 @@ public class PetService {
 	public void remover(Long id) {
 		dao.remover(id);
 	}
+	
+	public List<Pet> listarPorTutor(Long idTutor) {
+		return dao.listarPorTutor(idTutor);
+	}
 }

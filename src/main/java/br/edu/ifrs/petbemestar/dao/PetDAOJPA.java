@@ -50,4 +50,11 @@ public class PetDAOJPA implements PetDAO {
 		if (pet != null)
 			em.remove(pet);
 	}
+	
+	@Override
+	public List<Pet> listarPorTutor(Long idTutor) {
+		return em.createQuery("SELECT p FROM Pet p WHERE p.tutor.id = :idTutor ORDER BY p.nome", Pet.class)
+				.setParameter("idTutor", idTutor)
+				.getResultList();
+	}
 }
