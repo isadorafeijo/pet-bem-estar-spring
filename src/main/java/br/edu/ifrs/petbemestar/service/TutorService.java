@@ -20,6 +20,7 @@ public class TutorService {
 	}
 	
 	public void salvar(Tutor tutor) {
+		validarTelefone(tutor.getTelefone(), null);
 		dao.salvar(tutor);
 	}
 	
@@ -32,6 +33,7 @@ public class TutorService {
 	}
 
 	public Tutor atualizar(Long id, Tutor dados) {
+		validarTelefone(dados.getTelefone(), null);
 		return dao.atualizar(id, dados);
 	}
 
@@ -42,4 +44,12 @@ public class TutorService {
 		}
 		dao.remover(id);
 	}
+	
+	private void validarTelefone(String telefone, Long idDoProprioTutor) {
+		Tutor existente = dao.buscarPorTelefone(telefone);
+		if (existente != null && !existente.getId().equals(idDoProprioTutor)) {
+			throw new RegraDeNegocioException("Já existe um cliente cadastrado com este telefone.");
+		}
+	}
+	
 }

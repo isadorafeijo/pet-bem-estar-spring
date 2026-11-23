@@ -31,8 +31,12 @@ public class TutorPaginaController {
 		if (resultado.hasErrors()) {
 			return "tutores/formulario";
 		}
-
-		service.salvar(tutor);
+		try {
+			service.salvar(tutor);
+		} catch (RegraDeNegocioException e) {
+			resultado.rejectValue("telefone", "telefone.duplicado", e.getMessage());
+			return "tutores/formulario";
+		}
 		return "redirect:/paginas/tutores";
 	}
 	
@@ -69,9 +73,12 @@ public class TutorPaginaController {
 		if (resultado.hasErrors()) {
 			return "tutores/formulario";
 		}
-
-		service.atualizar(id, tutor);
-
+		try {
+			service.atualizar(id, tutor);
+		} catch (RegraDeNegocioException e) {
+			resultado.rejectValue("telefone", "telefone.duplicado", e.getMessage());
+			return "tutores/formulario";
+		}
 		return "redirect:/paginas/tutores";
 	}
 

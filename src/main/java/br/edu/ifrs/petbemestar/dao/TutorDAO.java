@@ -11,4 +11,5 @@ public interface TutorDAO {
 	List<Tutor> listarTodos();
 	Tutor atualizar(Long id, Tutor tutor);
 	void remover(Long id);
+	Tutor buscarPorTelefone(String telefone);
 }
