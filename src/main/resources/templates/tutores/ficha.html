@@ -8,6 +8,12 @@
 </head>
 <body>
 <main class="container">
+	
+	<p th:if="${session.usuarioLogado}">
+	    Usuário: <span th:text="${session.usuarioLogado.nomeUsuario}">maria</span>
+	    <a th:href="@{/sair}">Sair</a>
+	</p>
+	
     <h1 th:text="${tutor.nome}">Nome do cliente</h1>
 
     <p><strong>Telefone:</strong> <span th:text="${tutor.telefone}"></span></p>
