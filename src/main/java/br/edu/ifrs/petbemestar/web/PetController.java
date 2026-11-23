@@ -12,33 +12,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.edu.ifrs.petbemestar.dao.PetDAO;
-import br.edu.ifrs.petbemestar.dao.TutorDAO;
 import br.edu.ifrs.petbemestar.dominio.Pet;
 import br.edu.ifrs.petbemestar.dominio.Tutor;
+import br.edu.ifrs.petbemestar.service.PetService;
+import br.edu.ifrs.petbemestar.service.TutorService;
 import jakarta.validation.Valid;
 
 public class PetController {
 	
-	private final PetDAO dao;
-	private final TutorDAO tutorDAO;
+	private final PetService petService;
+	private final TutorService tutorService;
 
-	public PetController(PetDAO dao, TutorDAO tutorDAO) {
-
-		this.dao = dao;
-		this.tutorDAO = tutorDAO;
+	public PetController(PetService petService, TutorService tutorService) {
+		this.petService = petService;
+		this.tutorService = tutorService;
 	}
 
 	@GetMapping("/pets")
 	public List<Pet> listar() {
-		return dao.listarTodos();
+		return petService.listarTodos();
 	}
 
 	@GetMapping("/pets/{id}")
 	public Pet buscarPorId(@PathVariable Long id) {
 
-		Pet pet = dao.buscarPorId(id);
-
+		Pet pet = petService.buscarPorId(id);
 		if (pet == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pet não encontrado.");
 		}
@@ -50,54 +48,40 @@ public class PetController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Pet cadastrar(@Valid @RequestBody Pet pet) {
 
-		Tutor tutor = validarTutor(pet);
-
-		pet.setTutor(tutor);
-		dao.salvar(pet);
-
+		pet.setTutor(validarTutor(pet));
+		petService.salvar(pet);
 		return pet;
 	}
 
 	@PutMapping("/pets/{id}")
 	public Pet atualizar(@PathVariable Long id, @Valid @RequestBody Pet dados) {
 
-		Pet existente = dao.buscarPorId(id);
-
-		if (existente == null) {
+		if (petService.buscarPorId(id) == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pet não encontrado.");
 		}
-
-		Tutor tutor = validarTutor(dados);
-
-		dados.setTutor(tutor);
-
-		return dao.atualizar(id, dados);
+		dados.setTutor(validarTutor(dados));
+		return petService.atualizar(id, dados);
 	}
 
 	@DeleteMapping("/pets/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long id) {
 
-		Pet pet = dao.buscarPorId(id);
-
-		if (pet == null) {
+		if (petService.buscarPorId(id) == null) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pet não encontrado.");
 		}
+		petService.remover(id);
 	}
 
 	private Tutor validarTutor(Pet pet) {
 
 		if (pet.getTutor() == null || pet.getTutor().getId() == null) {
-
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Informe o tutor do animal.");
 		}
-
-		Tutor tutor = tutorDAO.buscarPorId(pet.getTutor().getId());
-
+		Tutor tutor = tutorService.buscarPorId(pet.getTutor().getId());
 		if (tutor == null) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O tutor informado não existe.");
 		}
-
 		return tutor;
 	}
 }

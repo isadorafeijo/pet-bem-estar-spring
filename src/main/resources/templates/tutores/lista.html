@@ -13,7 +13,7 @@
     <div class="mensagem" th:if="${mensagem}" th:text="${mensagem}"></div>
     <div class="mensagens-erro" th:if="${erro}" th:text="${erro}"></div>
     <a th:href="@{/paginas/tutores/novo}" class="botao">+ Novo tutor</a>
-    <a th:href="@{/paginas/animais}" class="botao">Animais</a>
+    <a th:href="@{/paginas/pets}" class="botao">Animais</a>
     <div class="vazio" th:if="${#lists.isEmpty(tutores)}">Nenhum tutor cadastrado.</div>
     <table th:if="${not #lists.isEmpty(tutores)}">
         <thead><tr><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Ações</th></tr></thead>

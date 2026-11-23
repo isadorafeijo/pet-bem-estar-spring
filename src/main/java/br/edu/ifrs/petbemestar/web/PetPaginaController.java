@@ -10,28 +10,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.edu.ifrs.petbemestar.dao.PetDAO;
-import br.edu.ifrs.petbemestar.dao.TutorDAO;
 import br.edu.ifrs.petbemestar.dominio.Especie;
 import br.edu.ifrs.petbemestar.dominio.Pet;
 import br.edu.ifrs.petbemestar.dominio.Porte;
 import br.edu.ifrs.petbemestar.dominio.Tutor;
+import br.edu.ifrs.petbemestar.service.PetService;
+import br.edu.ifrs.petbemestar.service.TutorService;
 import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/paginas/pets")
 public class PetPaginaController {
 
-	private final PetDAO petDAO;
-	private final TutorDAO tutorDAO;
+	private final PetService petService;
+	private final TutorService tutorService;
 
-	public PetPaginaController(PetDAO petDAO, TutorDAO tutorDAO) {
-		this.petDAO = petDAO;
-		this.tutorDAO = tutorDAO;
+	public PetPaginaController(PetService petService, TutorService tutorService) {
+		this.petService = petService;
+		this.tutorService = tutorService;
 	}
 
 	private void carregarOpcoes(Model model) {
-		model.addAttribute("tutores", tutorDAO.listarTodos());
+		model.addAttribute("tutores", tutorService.listarTodos());
 		model.addAttribute("especies", Especie.values());
 		model.addAttribute("portes", Porte.values());
 	}
@@ -41,7 +41,7 @@ public class PetPaginaController {
 			resultado.rejectValue("tutor", "tutor.obrigatorio", "Selecione um tutor.");
 			return false;
 		}
-		Tutor tutor = tutorDAO.buscarPorId(pet.getTutor().getId());
+		Tutor tutor = tutorService.buscarPorId(pet.getTutor().getId());
 		if (tutor == null) {
 			resultado.rejectValue("tutor", "tutor.invalido", "O tutor selecionado não foi encontrado.");
 			return false;
@@ -52,7 +52,7 @@ public class PetPaginaController {
 
 	@GetMapping
 	public String listar(Model model) {
-		model.addAttribute("pets", petDAO.listarTodos());
+		model.addAttribute("pets", petService.listarTodos());
 		return "pets/lista";
 	}
 
@@ -72,13 +72,13 @@ public class PetPaginaController {
 			carregarOpcoes(model);
 			return "pets/formulario"; 
 		}
-		petDAO.salvar(pet);
+		petService.salvar(pet);
 		return "redirect:/paginas/pets";
 	}
 
 	@GetMapping("/editar/{id}")
 	public String editar(@PathVariable Long id, Model model) {
-		Pet pet = petDAO.buscarPorId(id);
+		Pet pet = petService.buscarPorId(id);
 		if (pet == null) {
 			return "redirect:/paginas/pets";
 		}
@@ -89,7 +89,7 @@ public class PetPaginaController {
 
 	@PostMapping("/editar/{id}")
 	public String atualizar(@PathVariable Long id, @Valid @ModelAttribute("pet") Pet pet, BindingResult resultado, Model model) {
-		Pet existente = petDAO.buscarPorId(id);
+		Pet existente = petService.buscarPorId(id);
 		if (existente == null) {
 			return "redirect:/paginas/pets";
 		}
@@ -101,19 +101,19 @@ public class PetPaginaController {
 			return "pets/formulario"; 
 		}
 		pet.setId(id);
-		petDAO.atualizar(id, pet);
+		petService.atualizar(id, pet);
 		return "redirect:/paginas/pets";
 	}
 
 	@PostMapping("/excluir/{id}")
 	public String remover(@PathVariable Long id, RedirectAttributes atributos) {
-		Pet pet = petDAO.buscarPorId(id);
+		Pet pet = petService.buscarPorId(id);
 		if (pet == null) {
 			atributos.addFlashAttribute("erro", "Animal não encontrado.");
 			return "redirect:/paginas/pets";
 		}
 		try {
-			petDAO.remover(id);
+			petService.remover(id);
 			atributos.addFlashAttribute("mensagem", "Animal excluído com sucesso.");
 		} catch (Exception e) {
 			atributos.addFlashAttribute("erro", "Não foi possível excluir o animal. Verifique os registros vinculados.");

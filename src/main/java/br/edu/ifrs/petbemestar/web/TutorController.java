@@ -12,44 +12,44 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 
-import br.edu.ifrs.petbemestar.dao.TutorDAO;
 import br.edu.ifrs.petbemestar.dominio.Tutor;
+import br.edu.ifrs.petbemestar.service.TutorService;
 
 @RestController
 public class TutorController {
 
-	private final TutorDAO dao;
+	private final TutorService service;
 	
-	public TutorController(TutorDAO dao) {
-		this.dao = dao;
+	public TutorController(TutorService service) {
+		this.service = service;
 	}
 	
 	@PostMapping("/tutores")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Tutor cadastrar(@RequestBody Tutor tutor) {
-		dao.salvar(tutor);
+		service.salvar(tutor);
 		return tutor;
 	}
 	
 	@GetMapping("/tutores")
 	public List<Tutor> listar() {
-		return dao.listarTodos();
+		return service.listarTodos();
 	}
 	
 	@GetMapping("/tutores/{id}")
 	public Tutor buscarPorId(@PathVariable Long id) {
-		return dao.buscarPorId(id);
+		return service.buscarPorId(id);
 	}
 	
 	@PutMapping("/tutores/{id}")
 	public Tutor atualizar(@PathVariable Long id, @RequestBody Tutor dados) {
 
-		return dao.atualizar(id, dados);
+		return service.atualizar(id, dados);
 	}
 	
 	@DeleteMapping("/tutores/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long id) {
-		dao.remover(id);
+		service.remover(id);
 	}
 }
