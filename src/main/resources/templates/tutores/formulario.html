@@ -1,84 +1,63 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Cadastro de Tutor</title>
-
-<link rel="stylesheet" th:href="@{/css/estilo.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Bem-Estar - Cadastro de Tutor</title>
+    <link rel="stylesheet" th:href="@{/css/petshop.css}">
 </head>
-
 <body>
 
-	<main class="container">
-		
-		<p th:if="${session.usuarioLogado}">
-		    Usuário: <span th:text="${session.usuarioLogado.nomeUsuario}">maria</span>
-		    <a th:href="@{/sair}">Sair</a>
-		</p>
+<header class="cabecalho">
+    <a th:href="@{/paginas/tutores}">
+        <img th:src="@{/img/logo.jpg}" alt="Pet Bem-Estar" class="logo">
+    </a>
+    <div class="usuario" th:if="${session.usuarioLogado}">
+        Usuário: <span th:text="${session.usuarioLogado.nomeUsuario}">maria</span>
+        <a th:href="@{/sair}">Sair</a>
+    </div>
+</header>
 
-		<h1 th:text="${tutor.id == null ? 'Cadastrar Tutor' : 'Editar Tutor'}">
-			Cadastro do Tutor</h1>
+<main class="container">
+    <h1 th:text="${tutor.id == null ? 'Cadastrar Tutor' : 'Editar Tutor'}">Cadastro do Tutor</h1>
 
-		<form th:object="${tutor}"
-			th:action="${tutor.id == null ? '/paginas/tutores/novo' : '/paginas/tutores/editar/' + tutor.id}"
-			method="post">
+    <form th:object="${tutor}"
+          th:action="${tutor.id == null ? '/paginas/tutores/novo' : '/paginas/tutores/editar/' + tutor.id}"
+          method="post">
 
-			<input type="hidden" th:field="*{id}">
+        <input type="hidden" th:field="*{id}">
 
-			<div class="mensagens-erro" th:if="${#fields.hasErrors('*')}">
+        <div class="mensagens-erro" th:if="${#fields.hasErrors('*')}">
+            <p><strong>Não foi possível salvar o tutor.</strong></p>
+            <ul>
+                <li th:each="erro : ${#fields.errors('*')}" th:text="${erro}">Mensagem de erro</li>
+            </ul>
+        </div>
 
-				<p>
-					<strong>Não foi possível salvar o tutor.</strong>
-				</p>
+        <div class="campo">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" th:field="*{nome}" maxlength="120" required
+                   placeholder="Nome do cliente" autocomplete="name">
+        </div>
 
-				<ul>
-					<li th:each="erro : ${#fields.errors('*')}" th:text="${erro}">
-						Mensagem de erro</li>
-				</ul>
+        <div class="campo">
+            <label for="telefone">Telefone:</label>
+            <input type="tel" id="telefone" th:field="*{telefone}" maxlength="30" required
+                   placeholder="(00) 00000-0000" autocomplete="tel">
+        </div>
 
-			</div>
+        <div class="campo">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" th:field="*{email}" maxlength="150"
+                   placeholder="exemplo@email.com" autocomplete="email">
+        </div>
 
-			<div class="campo">
-
-				<label for="nome">Nome:</label> <input type="text" id="nome"
-					th:field="*{nome}" maxlength="120" required
-					placeholder="Nome do cliente" autocomplete="name"> 
-
-			</div>
-
-			<div class="campo">
-
-				<label for="telefone">Telefone:</label> <input type="tel"
-					id="telefone" th:field="*{telefone}" maxlength="30" required
-					placeholder="(00) 00000-0000" autocomplete="tel"> 
-
-			</div>
-			
-			<div class="campo">
-
-				<label for="email">E-mail:</label> <input type="email"
-					id="email" th:field="*{email}" maxlength="150"
-					placeholder="exemplo@email.com" autocomplete="email"> 
-
-			</div>
-
-			<div class="botoes-formulario">
-
-				<button type="submit" class="btn btn-principal"
-					th:text="${tutor.id == null ? 'Cadastrar' : 'Salvar alterações'}">
-					Salvar</button>
-
-				<a th:href="@{/paginas/tutores}" class="btn btn-secundario">
-					Cancelar </a>
-
-			</div>
-
-		</form>
-
-	</main>
-
+        <div class="botoes-formulario">
+            <button type="submit" class="btn btn-principal"
+                    th:text="${tutor.id == null ? 'Cadastrar' : 'Salvar alterações'}">Salvar</button>
+            <a th:href="@{/paginas/tutores}" class="btn btn-secundario">Cancelar</a>
+        </div>
+    </form>
+</main>
 </body>
 </html>

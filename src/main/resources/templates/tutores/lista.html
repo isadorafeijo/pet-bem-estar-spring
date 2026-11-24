@@ -3,18 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pet Bem-Estar - Tutores</title>
-    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    <title>Pet Bem-Estar - Clientes</title>
+    <link rel="stylesheet" th:href="@{/css/petshop.css}">
 </head>
 <body>
+
+<header class="cabecalho">
+    <a th:href="@{/paginas/tutores}">
+        <img th:src="@{/img/logo.jpg}" alt="Pet Bem-Estar" class="logo">
+    </a>
+    <div class="usuario" th:if="${session.usuarioLogado}">
+        Usuário: <span th:text="${session.usuarioLogado.nomeUsuario}">maria</span>
+        <a th:href="@{/sair}">Sair</a>
+    </div>
+</header>
+
 <main class="container">
-	
-	<p th:if="${session.usuarioLogado}">
-	    Usuário: <span th:text="${session.usuarioLogado.nomeUsuario}">maria</span>
-	    <a th:href="@{/sair}">Sair</a>
-	</p>
-	
-    <h1>Pet Bem-Estar</h1>
+    <h1>Clientes</h1>
     <p class="subtitulo">Gerenciamento de clientes</p>
 
     <div class="mensagem" th:if="${mensagem}" th:text="${mensagem}"></div>

@@ -1,0 +1,220 @@
+/* ===== Cores do Pet Bem-Estar (e-mail da Marlene) ===== */
+:root {
+	--verde: #2e8b7a;
+	--verde-escuro: #236b5d;
+	--laranja: #f28c45;
+	--laranja-claro: #fde9d9;
+	--creme: #fff8ee;
+	--letras: #3b3a36;
+	--borda: #eadfcb;
+	--branco: #ffffff;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	background: var(--creme);
+	color: var(--letras);
+}
+
+/* ===== Cabeçalho com logo ===== */
+.cabecalho {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 4px 24px;
+	background: var(--branco);
+	border-bottom: 5px solid var(--laranja);
+}
+
+.logo {
+	height: 90px;
+	display: block;
+}
+
+.usuario {
+	font-size: 0.95rem;
+	color: var(--letras);
+}
+
+.usuario a {
+	margin-left: 8px;
+	font-weight: bold;
+	color: var(--verde-escuro);
+}
+
+/* ===== Conteúdo ===== */
+.container {
+	max-width: 900px;
+	margin: 24px auto;
+	padding: 24px;
+	background: var(--branco);
+	border: 1px solid var(--borda);
+	border-radius: 8px;
+}
+
+h1,
+h2 {
+	color: var(--verde);
+}
+
+.subtitulo {
+	margin-top: -8px;
+}
+
+a {
+	color: var(--verde-escuro);
+}
+
+/* ===== Botões ===== */
+.botao,
+.btn {
+	display: inline-block;
+	padding: 8px 14px;
+	border: 1px solid transparent;
+	border-radius: 6px;
+	font-size: 0.95rem;
+	font-weight: bold;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.botao,
+.btn-principal {
+	background: var(--verde);
+	color: var(--branco);
+}
+
+.botao:hover,
+.btn-principal:hover {
+	background: var(--verde-escuro);
+}
+
+.btn-secundario {
+	background: var(--branco);
+	color: var(--verde-escuro);
+	border-color: var(--verde);
+}
+
+.btn-editar {
+	background: var(--branco);
+	color: var(--verde-escuro);
+	border-color: var(--verde);
+}
+
+.btn-excluir {
+	background: var(--laranja);
+	color: var(--letras);
+}
+
+.btn-excluir:hover {
+	background: #e07a33;
+}
+
+/* ===== Tabelas ===== */
+table {
+	width: 100%;
+	margin-top: 16px;
+	border-collapse: collapse;
+}
+
+th {
+	padding: 10px;
+	text-align: left;
+	background: var(--verde);
+	color: var(--branco);
+}
+
+td {
+	padding: 10px;
+	border-bottom: 1px solid var(--borda);
+}
+
+tr:nth-child(even) td {
+	background: var(--creme);
+}
+
+.acoes {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.acoes form {
+	margin: 0;
+}
+
+.vazio {
+	margin-top: 16px;
+	padding: 12px;
+	background: var(--creme);
+	border: 1px dashed var(--laranja);
+	border-radius: 6px;
+}
+
+/* ===== Formulários ===== */
+.campo {
+	margin-bottom: 14px;
+}
+
+.campo label {
+	display: block;
+	margin-bottom: 4px;
+	font-weight: bold;
+}
+
+.campo input,
+.campo select {
+	width: 100%;
+	max-width: 420px;
+	padding: 8px;
+	border: 1px solid var(--borda);
+	border-radius: 6px;
+	font-size: 1rem;
+	color: var(--letras);
+}
+
+.campo input:focus,
+.campo select:focus {
+	outline: 2px solid var(--verde);
+}
+
+.botoes-formulario {
+	display: flex;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+/* ===== Mensagens ===== */
+.mensagem {
+	margin: 12px 0;
+	padding: 10px 14px;
+	background: #e3f3ef;
+	color: var(--verde-escuro);
+	border-left: 5px solid var(--verde);
+	border-radius: 4px;
+}
+
+.mensagens-erro {
+	margin: 12px 0;
+	padding: 10px 14px;
+	background: var(--laranja-claro);
+	color: var(--letras);
+	border-left: 5px solid var(--laranja);
+	border-radius: 4px;
+}
+
+.mensagens-erro ul {
+	margin: 6px 0 0 0;
+	padding-left: 20px;
+}
+
+.erro-campo {
+	color: #b45a1c;
+	font-size: 0.9rem;
+}

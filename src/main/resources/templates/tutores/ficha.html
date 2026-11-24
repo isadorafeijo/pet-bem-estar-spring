@@ -4,23 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Bem-Estar - Ficha do cliente</title>
-    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    <link rel="stylesheet" th:href="@{/css/petshop.css}">
 </head>
 <body>
+
+<header class="cabecalho">
+    <a th:href="@{/paginas/tutores}">
+        <img th:src="@{/img/logo.jpg}" alt="Pet Bem-Estar" class="logo">
+    </a>
+    <div class="usuario" th:if="${session.usuarioLogado}">
+        Usuário: <span th:text="${session.usuarioLogado.nomeUsuario}">maria</span>
+        <a th:href="@{/sair}">Sair</a>
+    </div>
+</header>
+
 <main class="container">
-	
-	<p th:if="${session.usuarioLogado}">
-	    Usuário: <span th:text="${session.usuarioLogado.nomeUsuario}">maria</span>
-	    <a th:href="@{/sair}">Sair</a>
-	</p>
-	
     <h1 th:text="${tutor.nome}">Nome do cliente</h1>
 
     <p><strong>Telefone:</strong> <span th:text="${tutor.telefone}"></span></p>
 
     <h2>Animais</h2>
 
-    <p th:if="${pets.isEmpty()}">Nenhum animal cadastrado para este cliente.</p>
+    <p class="vazio" th:if="${pets.isEmpty()}">Nenhum animal cadastrado para este cliente.</p>
 
     <table th:if="${!pets.isEmpty()}">
         <thead>
@@ -39,7 +44,9 @@
         </tbody>
     </table>
 
-    <a th:href="@{/paginas/tutores}" class="botao">Voltar</a>
+    <p>
+        <a th:href="@{/paginas/tutores}" class="botao">Voltar</a>
+    </p>
 </main>
 </body>
 </html>

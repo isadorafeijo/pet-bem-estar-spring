@@ -4,59 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Bem-Estar - Animais</title>
-    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+    <link rel="stylesheet" th:href="@{/css/petshop.css}">
 </head>
 <body>
-    <main class="container">
-		
-		<p th:if="${session.usuarioLogado}">
-		    Usuário: <span th:text="${session.usuarioLogado.nomeUsuario}">maria</span>
-		    <a th:href="@{/sair}">Sair</a>
-		</p>
-		
-        <h1>Pet Bem-Estar</h1>
-        <p class="subtitulo">Gerenciamento de animais</p>
 
-        <div class="mensagem" th:if="${mensagem}" th:text="${mensagem}"></div>
-        <div class="mensagens-erro" th:if="${erro}" th:text="${erro}"></div>
+<header class="cabecalho">
+    <a th:href="@{/paginas/tutores}">
+        <img th:src="@{/img/logo.jpg}" alt="Pet Bem-Estar" class="logo">
+    </a>
+    <div class="usuario" th:if="${session.usuarioLogado}">
+        Usuário: <span th:text="${session.usuarioLogado.nomeUsuario}">maria</span>
+        <a th:href="@{/sair}">Sair</a>
+    </div>
+</header>
 
-        <!-- Navegação corrigida para /paginas/pets -->
-        <a th:href="@{/paginas/pets/novo}" class="botao"> + Novo animal </a> 
-        <a th:href="@{/paginas/tutores}" class="botao"> Tutores </a>
+<main class="container">
+    <h1>Animais</h1>
+    <p class="subtitulo">Gerenciamento de animais</p>
 
-        <div class="vazio" th:if="${#lists.isEmpty(pets)}">Nenhum animal cadastrado.</div>
+    <div class="mensagem" th:if="${mensagem}" th:text="${mensagem}"></div>
+    <div class="mensagens-erro" th:if="${erro}" th:text="${erro}"></div>
 
-        <table th:if="${not #lists.isEmpty(pets)}">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Espécie</th>
-                    <th>Porte</th>
-                    <th>Tutor</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Variável alterada de 'animal' para 'pet' -->
-                <tr th:each="pet : ${pets}">
-                    <td th:text="${pet.nome}"></td>
-                    <td th:text="${pet.especie}"></td>
-                    <td th:text="${pet.porte}"></td>
-                    <td th:text="${pet.tutor.nome}"></td>
-                    <td>
-                        <div class="acoes">
-                            <!-- Rotas alteradas para /paginas/pets -->
-                            <a th:href="@{/paginas/pets/editar/{id}(id=${pet.id})}" class="btn btn-editar"> Editar </a>
+    <a th:href="@{/paginas/pets/novo}" class="botao">+ Novo animal</a>
+    <a th:href="@{/paginas/tutores}" class="botao">Tutores</a>
 
-                            <form th:action="@{/paginas/pets/excluir/{id}(id=${pet.id})}" method="post"
-                                  onsubmit="return confirm('Deseja realmente excluir este animal?');">
-                                <button type="submit" class="btn btn-excluir">Excluir</button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </main>
+    <div class="vazio" th:if="${#lists.isEmpty(pets)}">Nenhum animal cadastrado.</div>
+
+    <table th:if="${not #lists.isEmpty(pets)}">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Espécie</th>
+                <th>Porte</th>
+                <th>Tutor</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pet : ${pets}">
+                <td th:text="${pet.nome}"></td>
+                <td th:text="${pet.especie}"></td>
+                <td th:text="${pet.porte}"></td>
+                <td th:text="${pet.tutor.nome}"></td>
+                <td>
+                    <div class="acoes">
+                        <a th:href="@{/paginas/pets/editar/{id}(id=${pet.id})}" class="btn btn-editar">Editar</a>
+                        <form th:action="@{/paginas/pets/excluir/{id}(id=${pet.id})}" method="post"
+                              onsubmit="return confirm('Deseja realmente excluir este animal?');">
+                            <button type="submit" class="btn btn-excluir">Excluir</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</main>
 </body>
 </html>

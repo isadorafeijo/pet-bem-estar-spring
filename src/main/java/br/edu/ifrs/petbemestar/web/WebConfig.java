@@ -11,9 +11,8 @@ public class WebConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new LoginInterceptor())
 				.addPathPatterns("/**")
-				.excludePathPatterns("/login", "/cadastro", "/css/**");
+				.excludePathPatterns("/login", "/cadastro", "/css/**", "/img/**");
 	}
-	
 }
 
 //Faz a ligação com o interceptor. Sem ele o Spring não o usa.
